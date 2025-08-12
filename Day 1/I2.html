@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Card Component with CSS Variables</title>
+<style>
+    /* CSS Variables */
+    :root {
+        --card-bg: #ffffff;
+        --card-border-radius: 12px;
+        --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        --card-padding: 16px;
+        --title-color: #333;
+        --text-color: #555;
+        --button-bg: #007BFF;
+        --button-color: #fff;
+        --button-hover-bg: #0056b3;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .card {
+        background-color: var(--card-bg);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--card-shadow);
+        width: 300px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card img {
+        width: 100%;
+        height: auto;
+    }
+
+    .card-content {
+        padding: var(--card-padding);
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        color: var(--title-color);
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        color: var(--text-color);
+        margin-bottom: 15px;
+    }
+
+    .card button {
+        padding: 10px 15px;
+        background-color: var(--button-bg);
+        color: var(--button-color);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .card button:hover {
+        background-color: var(--button-hover-bg);
+    }
+</style>
+</head>
+<body>
+
+<div class="card">
+    <img src="c:\Users\dilip\Downloads\mercedes-maybach-s-680-4matic-mercedes-maybach-s-class-3840x2160-5750.jpg" alt="Card Image">
+    <div class="card-content">
+        <h2 class="card-title">Sample Card</h2>
+        <p class="card-text">This is a reusable card component styled with CSS variables for easy customization.</p>
+        <button>Learn More</button>
+    </div>
+</div>
+
+</body>
+</html>
