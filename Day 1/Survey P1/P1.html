@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Improvement Survey</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Website Improvement Survey</h2>
+  <form action="#" method="post">
+    
+    <!-- Name -->
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <!-- Email -->
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <!-- Age -->
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" min="10" max="100" required>
+
+    <!-- Profession Dropdown -->
+    <label for="profession">Profession:</label>
+    <select id="profession" name="profession" required>
+      <option value="">--Select Profession--</option>
+      <option value="student">Student</option>
+      <option value="teacher">Teacher</option>
+      <option value="developer">Developer</option>
+      <option value="business">Business</option>
+      <option value="other">Other</option>
+    </select>
+
+    <!-- Feedback Radio -->
+    <p>How would you rate our website?</p>
+    <input type="radio" id="excellent" name="feedback" value="excellent" required>
+    <label for="excellent">Excellent</label><br>
+    <input type="radio" id="good" name="feedback" value="good">
+    <label for="good">Good</label><br>
+    <input type="radio" id="average" name="feedback" value="average">
+    <label for="average">Average</label><br>
+    <input type="radio" id="poor" name="feedback" value="poor">
+    <label for="poor">Poor</label>
+
+    <!-- Content Dropdown -->
+    <label for="content">What content do you like the most?</label>
+    <select id="content" name="content">
+      <option value="">--Select Content--</option>
+      <option value="articles">Articles</option>
+      <option value="videos">Videos</option>
+      <option value="images">Images</option>
+      <option value="tutorials">Tutorials</option>
+    </select>
+
+    <!-- Improvements Checkbox -->
+    <p>What would you like us to improve in the future? (Select multiple)</p>
+    <input type="checkbox" id="design" name="improvements" value="design">
+    <label for="design">Better Design</label><br>
+    <input type="checkbox" id="speed" name="improvements" value="speed">
+    <label for="speed">Faster Loading</label><br>
+    <input type="checkbox" id="contentQuality" name="improvements" value="contentQuality">
+    <label for="contentQuality">Better Content Quality</label><br>
+    <input type="checkbox" id="mobileFriendly" name="improvements" value="mobileFriendly">
+    <label for="mobileFriendly">More Mobile-Friendly</label>
+
+    <!-- Submit -->
+    <br><br>
+    <button type="submit">Submit Survey</button>
+  </form>
+</body>
+</html>
