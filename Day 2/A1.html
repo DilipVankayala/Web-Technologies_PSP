@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Canvas Drawing Board</title>
+  <style>
+    :root { --toolbar-h: 56px; }
+    body { margin: 0; font-family: system-ui, Arial, sans-serif; }
+    .toolbar {
+      height: var(--toolbar-h);
+      display: flex; gap: 12px; align-items: center;
+      padding: 0 12px; background: #f5f5f5; border-bottom: 1px solid #ddd;
+    }
+    .toolbar label { font-size: 14px; color: #333; }
+    canvas { display: block; width: 100vw; height: calc(100vh - var(--toolbar-h)); cursor: crosshair; }
+    button { padding: 6px 12px; border: 1px solid #ccc; background: white; border-radius: 6px; }
+    input[type="range"] { width: 140px; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <label>Color <input type="color" id="color" value="#1d4ed8" /></label>
+    <label>Size <input type="range" id="size" min="1" max="30" value="6" /></label>
+    <button id="clear">Clear</button>
+  </div>
+
+  <canvas id="board"></canvas>
+
+  <script>
+    const canvas = document.getElementById('board');
+    const ctx = canvas.getContext('2d', { alpha: true });
+    const colorEl = document.getElementById('color');
+    const sizeEl  = document.getElementById('size');
+    const clearEl = document.getElementById('clear');
+
+    // Handle HiDPI so lines are crisp
+    function resizeCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      const cssW = canvas.clientWidth;
+      const cssH = canvas.clientHeight;
+      canvas.width  = Math.floor(cssW * dpr);
+      canvas.height = Math.floor(cssH * dpr);
+      ctx.scale(dpr, dpr);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+    }
+    // Initial sizing after DOM paints
+    requestAnimationFrame(resizeCanvas);
+    window.addEventListener('resize', () => {
+      // Save current image and redraw after resize (simple approach: clear)
+      const dpr = window.devicePixelRatio || 1;
+      const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      resizeCanvas();
+      ctx.putImageData(img, 0, 0); // may look offset on some resizes; acceptable for demo
+    });
+
+    let drawing = false;
+    let lastX = 0, lastY = 0;
+
+    function setStrokeStyle() {
+      ctx.strokeStyle = colorEl.value;
+      ctx.lineWidth = Number(sizeEl.value);
+    }
+
+    function posFromEvent(e) {
+      if (e.touches && e.touches[0]) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: e.touches[0].clientX - rect.left,
+          y: e.touches[0].clientY - rect.top
+        };
+      } else {
+        const rect = canvas.getBoundingClientRect();
+        return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      }
+    }
+
+    function startDraw(e) {
+      e.preventDefault();
+      setStrokeStyle();
+      drawing = true;
+      const { x, y } = posFromEvent(e);
+      lastX = x; lastY = y;
+    }
+
+    function draw(e) {
+      if (!drawing) return;
+      e.preventDefault();
+      const { x, y } = posFromEvent(e);
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      lastX = x; lastY = y;
+    }
+
+    function endDraw(e) {
+      if (!drawing) return;
+      drawing = false;
+    }
+
+    // Mouse events
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    window.addEventListener('mouseup', endDraw);
+
+    // Touch events
+    canvas.addEventListener('touchstart', startDraw, { passive: false });
+    canvas.addEventListener('touchmove', draw, { passive: false });
+    window.addEventListener('touchend', endDraw);
+
+    // Controls
+    clearEl.addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+  </script>
+</body>
+</html>
