@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Scrollable Modal</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-5">
+
+  <!-- Button to Open Modal -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#scrollModal">
+    Open Scrollable Modal
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="scrollModal" tabindex="-1" aria-labelledby="scrollModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable"> <!-- Enables scroll -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="scrollModalLabel">Scrollable Modal Example</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>This is some placeholder text inside the modal. Scroll down to see more content.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet lacus vel lacus sagittis scelerisque.</p>
+          <p>Integer id orci non leo tincidunt viverra vel non odio. Sed consequat vestibulum nisl nec dictum.</p>
+          <p>Aliquam erat volutpat. Sed eget nibh sit amet magna luctus pretium.</p>
+          <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;</p>
+          <p>Fusce id augue vitae eros posuere ultricies.</p>
+          <p>Morbi viverra risus vel ligula iaculis, ut sollicitudin nisl ultricies.</p>
+          <p>Vivamus id lorem nec lorem fermentum fringilla in at risus.</p>
+          <p>Etiam feugiat nulla et velit venenatis, ac tincidunt ipsum imperdiet.</p>
+          <p>Phasellus tempor lorem a lorem volutpat, vitae pretium eros ultricies.</p>
+          <p>Integer fermentum est sed turpis vehicula, sed dignissim mauris blandit.</p>
+          <p>Fusce sit amet risus non augue posuere dapibus vel a orci.</p>
+          <p>Nullam posuere justo in sapien bibendum, sed dapibus erat viverra.</p>
+          <p>End of content. Scroll back up!</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
