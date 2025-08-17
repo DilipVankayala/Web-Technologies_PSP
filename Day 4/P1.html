@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Store with KnockoutJS</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 70%;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background: #f4f4f4;
+      cursor: pointer;
+    }
+    .cart {
+      margin-top: 30px;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>Book Store</h2>
+
+  <!-- Add New Book -->
+  <h3>Add New Book</h3>
+  <p>
+    Name: <input data-bind="value: newBookName" placeholder="Book Name">
+    Quantity: <input type="number" data-bind="value: newBookQuantity" placeholder="Quantity">
+    Price: <input type="number" data-bind="value: newBookPrice" placeholder="Price">
+    <button data-bind="click: addBook">Add</button>
+  </p>
+
+  <!-- Book List -->
+  <h3>Available Books</h3>
+  <table>
+    <thead>
+      <tr>
+        <th data-bind="click: sortByName">Book Name ⬍</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Order Quantity</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody data-bind="foreach: books">
+      <tr>
+        <td data-bind="text: name"></td>
+        <td data-bind="text: quantity"></td>
+        <td data-bind="text: price"></td>
+        <td><input type="number" min="1" data-bind="value: orderQuantity"></td>
+        <td>
+          <button data-bind="click: $parent.addToCart">Add to Cart</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="error" data-bind="text: errorMessage"></p>
+
+  <!-- Shopping Cart -->
+  <div class="cart">
+    <h3>Shopping Cart</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Book</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody data-bind="foreach: cart">
+        <tr>
+          <td data-bind="text: name"></td>
+          <td data-bind="text: quantity"></td>
+          <td data-bind="text: price"></td>
+          <td data-bind="text: quantity * price"></td>
+        </tr>
+      </tbody>
+    </table>
+    <h4>Total Amount: <span data-bind="text: totalAmount"></span></h4>
+  </div>
+
+  <script>
+    function Book(name, quantity, price) {
+      this.name = ko.observable(name);
+      this.quantity = ko.observable(quantity);
+      this.price = ko.observable(price);
+      this.orderQuantity = ko.observable(1);
+    }
+
+    function CartItem(name, quantity, price) {
+      this.name = name;
+      this.quantity = quantity;
+      this.price = price;
+    }
+
+    function BookStoreViewModel() {
+      let self = this;
+
+      // Initial books
+      self.books = ko.observableArray([
+        new Book("Delhi Guide", 5, 200),
+        new Book("Mumbai Tales", 10, 150),
+        new Book("Chennai Heritage", 8, 250),
+        new Book("Kolkata Stories", 6, 180)
+      ]);
+
+      // New book fields
+      self.newBookName = ko.observable("");
+      self.newBookQuantity = ko.observable("");
+      self.newBookPrice = ko.observable("");
+
+      self.errorMessage = ko.observable("");
+
+      // Cart
+      self.cart = ko.observableArray([]);
+
+      // Add new book
+      self.addBook = function() {
+        if (self.newBookName() && self.newBookQuantity() > 0 && self.newBookPrice() > 0) {
+          self.books.push(new Book(self.newBookName(), parseInt(self.newBookQuantity()), parseFloat(self.newBookPrice())));
+          self.newBookName("");
+          self.newBookQuantity("");
+          self.newBookPrice("");
+          self.errorMessage("");
+        } else {
+          self.errorMessage("Please enter valid book details!");
+        }
+      };
+
+      // Add to cart
+      self.addToCart = function(book) {
+        let qty = parseInt(book.orderQuantity());
+        if (qty <= book.quantity()) {
+          self.cart.push(new CartItem(book.name(), qty, book.price()));
+          book.quantity(book.quantity() - qty);
+          self.errorMessage("");
+        } else {
+          self.errorMessage("Not enough stock for " + book.name());
+        }
+      };
+
+      // Sorting
+      self.sortByName = function() {
+        self.books.sort((a, b) => a.name().localeCompare(b.name()));
+      };
+
+      // Total amount
+      self.totalAmount = ko.computed(function() {
+        let total = 0;
+        self.cart().forEach(item => {
+          total += item.quantity * item.price;
+        });
+        return total;
+      });
+    }
+
+    ko.applyBindings(new BookStoreViewModel());
+  </script>
+</body>
+</html>
